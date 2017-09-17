@@ -4,6 +4,14 @@ class ControllerPaymentRavepay extends Controller
 	public function index()
 	{
 		$this->language->load('payment/ravepay');
+
+        if ($this->config->get('ravepay_live')) {
+            $this->document->addScript('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+        } else {
+            $this->document->addScript('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+        }
+
+        
 		$data['text_testmode'] = $this->language->get('text_testmode'); 
         $data['button_confirm'] = $this->language->get('button_confirm');
 

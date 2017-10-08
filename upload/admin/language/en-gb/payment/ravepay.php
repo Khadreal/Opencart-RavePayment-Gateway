@@ -13,6 +13,8 @@ $_['entry_live_secret'] 			= 'Live Secret Key';
 $_['entry_live_public'] 			= 'Live Public Key';
 $_['entry_test_secret'] 			= 'Test Secret Key';
 $_['entry_test_public'] 			= 'Test Public Key';
+$_['entry_test_country'] 			= 'Choose Country';
+$_['entry_test_currency'] 			= 'Choose Currency';
 
 $_['entry_total']					= 'Total';
 $_['entry_order_status']			= 'Order Status';

@@ -34,6 +34,8 @@ class ControllerPaymentRavepay extends Controller
         $data['entry_live_public'] = $this->language->get('entry_live_public');
         $data['entry_test_secret'] = $this->language->get('entry_test_secret');
         $data['entry_test_public'] = $this->language->get('entry_test_public');
+        $data['entry_test_country'] = $this->language->get('entry_test_country');
+        $data['entry_test_currency'] = $this->language->get('entry_test_currency');
         
         $data['entry_live'] = $this->language->get('entry_live');
         $data['entry_total'] = $this->language->get('entry_total');
@@ -113,6 +115,18 @@ class ControllerPaymentRavepay extends Controller
 			$data['ravepay_order_status_id'] = $this->request->post['ravepay_order_status_id'];
 		} else {
 			$data['ravepay_order_status_id'] = $this->config->get('ravepay_order_status_id');
+		}
+
+		if (isset($this->request->post['ravepay_currency'])) {
+			$data['ravepay_currency'] = $this->request->post['ravepay_currency'];
+		} else {
+			$data['ravepay_currency'] = $this->config->get('ravepay_currency');
+		}
+
+		if (isset($this->request->post['ravepay_country'])) {
+			$data['ravepay_country'] = $this->request->post['ravepay_country'];
+		} else {
+			$data['ravepay_country'] = $this->config->get('ravepay_country');
 		}
 
 		$this->load->model('localisation/order_status');

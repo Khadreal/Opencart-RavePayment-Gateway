@@ -31,6 +31,7 @@
               <input type="text" name="ravepay_total" value="<?php echo $ravepay_total; ?>" placeholder="<?php echo $entry_total; ?>" id="input-total" class="form-control" />
             </div>
           </div>
+
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_order_status; ?></label>
             <div class="col-sm-10">
@@ -45,6 +46,30 @@
               </select>
             </div>
           </div>
+
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_test_currency; ?></label>
+            <div class="col-sm-10">
+              <select name="ravepay_currency" id="input-order-status" class="form-control">
+                <option value="NGN">Naira</option>
+              </select>
+            </div>
+          </div>
+
+
+
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_test_country; ?></label>
+            <div class="col-sm-10">
+              <select name="ravepay_country" id="input-order-status" class="form-control">
+                <option value="NG">Nigeria</option>
+              </select>
+            </div>
+          </div>
+
+
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-geo-zone"><?php echo $entry_geo_zone; ?></label>
             <div class="col-sm-10">

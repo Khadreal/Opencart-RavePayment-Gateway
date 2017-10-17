@@ -6,7 +6,7 @@ class ControllerPaymentRavepay extends Controller
         $this->language->load('payment/ravepay');
         
         if ($this->config->get('ravepay_live')) {
-            $this->document->addScript('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
+            $this->document->addScript('https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js');
         } else {
             $this->document->addScript('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/flwpbf-inline.js');
         }
@@ -66,8 +66,17 @@ class ControllerPaymentRavepay extends Controller
         );
 
         $data_string = json_encode($query);
-                
-        $ch = curl_init('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify');                                                                      
+        
+        if ($this->config->get('ravepay_live')) {
+            $ch = curl_init('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify');
+        } else {
+            $ch = curl_init('http://api.ravepay.co/flwv3-pug/getpaidx/api/verify');
+        }
+
+
+        
+
+                                                                             
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                              
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

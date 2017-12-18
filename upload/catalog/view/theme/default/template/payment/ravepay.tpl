@@ -1,4 +1,5 @@
 
+<script type="text/javascript" src="http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
 
 <form>
   <button type="button" style="cursor:pointer;" value="Pay Now" id="submit">Pay Now</button>

@@ -4,6 +4,7 @@ class ControllerPaymentRavepay extends Controller
     public function index()
     {
         $this->language->load('payment/ravepay');
+        $this->load->model('checkout/order');
         
         if ($this->config->get('ravepay_live')) {
             $this->document->addScript('https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js');
@@ -26,12 +27,11 @@ class ControllerPaymentRavepay extends Controller
             $data['secret_key'] = $this->config->get('ravepay_test_secret_key');
         }
 
-        $this->load->model('checkout/order');
+        
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
         if ($order_info) 
         {
-            $data['test'] = $order_info['total'];
             $data['txnref']         =   uniqid('rvp' .$this->session->data['order_id'] . '-');
             $data['amount']         =   number_format($order_info['total']);
             $data['email']          =   $order_info['email'];
@@ -68,15 +68,13 @@ class ControllerPaymentRavepay extends Controller
         $data_string = json_encode($query);
         
         if ($this->config->get('ravepay_live')) {
-            $ch = curl_init('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify');
+            $ch = curl_init('https://api.ravepay.co/flwv3-pug/getpaidx/api/verify');
         } else {
-            $ch = curl_init('http://api.ravepay.co/flwv3-pug/getpaidx/api/verify');
+            $ch = curl_init('http://flw-pms-dev.eu-west-1.elasticbeanstalk.com/flwv3-pug/getpaidx/api/verify');
         }
 
-
         
-
-                                                                             
+                                                                              
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);                                              
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -100,6 +98,17 @@ class ControllerPaymentRavepay extends Controller
         $chargeCurrency = resp['data']['transaction_currency']*/
 
     }   
+
+    private function redir_and_die($url, $onlymeta = false)
+    {
+        if (!headers_sent() && !$onlymeta) {
+            header('Location: ' . $url);
+        }
+        echo "<meta http-equiv=\"refresh\" content=\"0;url=" . addslashes($url) . "\" />";
+        die();
+    }
+
+
     public function callback()
     {
         $json = array();
@@ -110,12 +119,10 @@ class ControllerPaymentRavepay extends Controller
             $flw_ref = $this->request->get['flw_ref'];
 
             $response_api =  $this->verifyTransaction($flw_ref);
-            //var_dump($response);
             $trxref = $response_api['data']['tx_ref'];
             $order_id = substr($trxref, 0, strpos($trxref, '-'));
             $order_id = substr($order_id, 3);
-            //echo $order_id;
-            // if no dash were in transation reference, we will have an empty order_id
+            
             if(!$order_id) {
                 $order_id = 0;
             }
@@ -124,33 +131,32 @@ class ControllerPaymentRavepay extends Controller
             
             if ($order_info) {
 
-                if($response_api['status'] === 'success') {
-                    $order_status_id = $this->config->get('ravepay_order_status_id');
-                    $redir_url = $this->url->link('checkout/success');
-
-                }else if ($response_api['status'] === 'failure'){
-                    $order_status_id = "Failure";
-
-                    $redir_url = $this->url->link('checkout/checkout');
-                }
-
                 $order_status_id = $this->config->get('config_order_status_id');
 
-                $this->model_checkout_order->addOrderHistory($order_id, $order_status_id);
+                /*print_r($response_api['data']['status']);
+                die();*/
 
-                $json['redirect'] = $redir_url;
+                if($response_api['data']['status'] === 'successful') {
+                    
+                    $order_status_id = $this->config->get('ravepay_order_status_id') ; 
+                    $redir_url = $this->url->link('checkout/success');
+
+                }else {
+
+                    $order_status_id = $this->config->get('ravepay_failed_status_id');
+                    $redir_url = $this->url->link('checkout/checkout');
+
+                }
+
+                $this->model_checkout_order->addOrderHistory($order_id, $order_status_id);
+                $this->redir_and_die($redir_url);
+
+                 
                 
             }
         }
 
-        echo '<html>' . "\n";
-            echo '<head>' . "\n";
-            echo '  <meta http-equiv="Refresh" content="0; url=' . $this->url->link('checkout/success') . '">' . "\n";
-            echo '</head>' . "\n";
-            echo '<body>' . "\n";
-            echo '  <p>Please follow <a href="' . $this->url->link('checkout/success') . '">link</a>!</p>' . "\n";
-            echo '</body>' . "\n";
-            echo '</html>' . "\n";
+       
         
         
 

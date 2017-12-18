@@ -49,57 +49,21 @@
 
 
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_test_currency; ?></label>
+            <label class="col-sm-2 control-label" for="input-failed-status"><?php echo $entry_failed_status; ?></label>
             <div class="col-sm-10">
-              <select name="ravepay_currency" id="input-order-status" class="form-control">
-                <option value="NGN">Naira</option>
-              </select>
-            </div>
-          </div>
-
-
-
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_test_country; ?></label>
-            <div class="col-sm-10">
-              <select name="ravepay_country" id="input-order-status" class="form-control">
-                <option value="NG">Nigeria</option>
-              </select>
-            </div>
-          </div>
-
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-geo-zone"><?php echo $entry_geo_zone; ?></label>
-            <div class="col-sm-10">
-              <select name="ravepay_geo_zone_id" id="input-geo-zone" class="form-control">
-                <option value="0"><?php echo $text_all_zones; ?></option>
-                <?php foreach ($geo_zones as $geo_zone) { ?>
-                <?php if ($geo_zone['geo_zone_id'] == $ravepay_geo_zone_id) { ?>
-                <option value="<?php echo $geo_zone['geo_zone_id']; ?>" selected="selected"><?php echo $geo_zone['name']; ?></option>
+              <select name="ravepay_failed_status_id" id="input-failed-status" class="form-control">
+                <?php foreach ($order_statuses as $order_status) { ?>
+                <?php if ($order_status['order_status_id'] == $ravepay_failed_status_id) { ?>
+                <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
                 <?php } else { ?>
-                <option value="<?php echo $geo_zone['geo_zone_id']; ?>"><?php echo $geo_zone['name']; ?></option>
+                <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
                 <?php } ?>
                 <?php } ?>
               </select>
             </div>
           </div>
-
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-live-demo"><?php echo $entry_live; ?></label> 
-            <div class="col-sm-10">
-              <select name="ravepay_live" id="input-live-demo" class="form-control">
-                <option value="1" <?php echo ($ravepay_live ? 'selected="selected"':''); ?>><?php echo $text_yes; ?>
-                </option>
-                <option value="0" <?php echo ($ravepay_live ? '':'selected="selected"'); ?>><?php echo $text_no; ?>
-                </option>
-              </select>
-            </div>
-          </div>
-
-
-          <div class="form-group">
+         
+         <div class="form-group">
             <label class="col-sm-2 control-label" for="input-test-secret"><?php echo $entry_test_secret; ?></label>
             <div class="col-sm-10">
              <input class="form-control" placeholder="<?php echo $entry_test_secret; ?>" id="input-test-secret" type="text" value="<?php echo $ravepay_test_secret_key; ?>" name="ravepay_test_secret_key">
@@ -141,6 +105,54 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_test_currency; ?></label>
+            <div class="col-sm-10">
+              <select name="ravepay_currency" id="input-order-status" class="form-control">
+                <option value="NGN" <?php echo ($ravepay_currency == "NGN" ? 'selected="selected"': '') ?> >Naira</option>
+                <option value="USD" <?php echo ($ravepay_currency == "USD" ? 'selected="selected"': '') ?> >US Dollar</option>
+                <option value="EUR" <?php echo ($ravepay_currency == "EUR" ? 'selected="selected"': '') ?> >Euro</option>
+                <option value="GBP" <?php echo ($ravepay_currency == "GBP" ? 'selected="selected"': '') ?> >Pounds</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-order-status"><?php echo $entry_test_country; ?></label>
+            <div class="col-sm-10">
+              <select name="ravepay_country" id="input-order-status" class="form-control">
+                <option value="NG">Nigeria</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-live-demo"><?php echo $entry_live; ?></label> 
+            <div class="col-sm-10">
+              <select name="ravepay_live" id="input-live-demo" class="form-control">
+                <option value="1" <?php echo ($ravepay_live ? 'selected="selected"':''); ?>><?php echo $text_yes; ?>
+                </option>
+                <option value="0" <?php echo ($ravepay_live ? '':'selected="selected"'); ?>><?php echo $text_no; ?>
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-geo-zone"><?php echo $entry_geo_zone; ?></label>
+            <div class="col-sm-10">
+              <select name="ravepay_geo_zone_id" id="input-geo-zone" class="form-control">
+                <option value="0"><?php echo $text_all_zones; ?></option>
+                <?php foreach ($geo_zones as $geo_zone) { ?>
+                <?php if ($geo_zone['geo_zone_id'] == $ravepay_geo_zone_id) { ?>
+                <option value="<?php echo $geo_zone['geo_zone_id']; ?>" selected="selected"><?php echo $geo_zone['name']; ?></option>
+                <?php } else { ?>
+                <option value="<?php echo $geo_zone['geo_zone_id']; ?>"><?php echo $geo_zone['name']; ?></option>
+                <?php } ?>
+                <?php } ?>
+              </select>
+            </div>
+          </div>
 
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-status"><?php echo $entry_status; ?></label>

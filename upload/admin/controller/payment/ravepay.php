@@ -45,6 +45,7 @@ class ControllerPaymentRavepay extends Controller
         $data['entry_geo_zone'] = $this->language->get('entry_geo_zone');
         $data['entry_status'] = $this->language->get('entry_status');
         $data['entry_order_status'] = $this->language->get('entry_order_status');
+        $data['entry_failed_status'] = $this->language->get('entry_failed_status');
         $data['entry_sort_order'] = $this->language->get('entry_sort_order');
 
         $data['help_total'] = $this->language->get('help_total');
@@ -115,6 +116,12 @@ class ControllerPaymentRavepay extends Controller
 			$data['ravepay_order_status_id'] = $this->request->post['ravepay_order_status_id'];
 		} else {
 			$data['ravepay_order_status_id'] = $this->config->get('ravepay_order_status_id');
+		}
+
+		if (isset($this->request->post['ravepay_failed_status_id'])) {
+			$data['ravepay_failed_status_id'] = $this->request->post['ravepay_failed_status_id'];
+		} else {
+			$data['ravepay_failed_status_id'] = $this->config->get('ravepay_failed_status_id');
 		}
 
 		if (isset($this->request->post['ravepay_currency'])) {

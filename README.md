@@ -10,7 +10,7 @@ OpenCart Rave payment gateway integration. Visit the Ravepay Website to know how
 
 
 # TO DO
-1. Add option for other currencies and countries
+1. Add option for other currencies and countries 
 
 # Contributing
 Please feel free to fork this plugin and contribute by submitting a pull request

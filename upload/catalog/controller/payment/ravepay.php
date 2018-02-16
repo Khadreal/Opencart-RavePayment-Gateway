@@ -93,10 +93,6 @@ class ControllerPaymentRavepay extends Controller
 
         return $resp;
 
-        /*$chargeResponse = resp['data']['flwMeta']['chargeResponse'];
-        $chargeAmount = resp['data']['amount'];
-        $chargeCurrency = resp['data']['transaction_currency']*/
-
     }   
 
     private function redir_and_die($url, $onlymeta = false)
